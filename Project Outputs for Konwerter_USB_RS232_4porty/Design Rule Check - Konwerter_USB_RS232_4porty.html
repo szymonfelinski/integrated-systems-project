@@ -1,0 +1,491 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : sans-serif;
+			color : white;
+			background-color : #21489e;
+			padding: 0.3em;
+		}
+		body {
+			font-family : verdana;
+		}
+		td, th {
+			padding: 0.5em;
+			text-align : center;
+			width : 18%;
+		}
+		th {
+			background-color : #A6CAF0;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+		}
+		
+		.DRC_summary_header {							
+			padding-bottom : 0.1em;
+			border : 0px solid black;							
+			width: 100%;
+                        align: right;
+                        
+		}
+
+		.DRC_summary_header_col1, 
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3
+		{
+			color : black;
+			font-size:150%;
+                        padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2: 0em;
+			border : 0px solid black;
+			width : auto;
+			vertical-align: top;
+			font-weight: bold;				
+		}
+		
+		.DRC_summary_header_col1 	
+		{		                       
+			text-align: right;
+                        width: auto;	
+		}
+
+		.DRC_summary_header_col2 	
+		{		
+			text-align: center;	
+		}
+
+		.DRC_summary_header_col3 	
+		{		
+			text-align: left;	
+		}
+
+
+		
+		.header_holder
+		{
+		Width = 100%;
+		border = 0px solid green;
+		padding = 0;
+		}
+		
+		
+		
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+                {
+			left:0;
+			top:0;
+			padding-top : 0.1em;			
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top
+
+		}
+		.front_matter {	
+			
+			margin-top: 5px;
+ 			margin-left: 0px;					 			
+ 			horizontal-align: left;
+		}
+				
+		
+		.front_matter_column1 {
+			width : 10em;	
+			text-align  : right;
+			padding-right:0.1em;
+			
+		}
+		
+		.front_matter_column2 {
+                        width: 0.1em;
+			align: center;
+			text-align : center;
+			margin-right  : 0.1em;	
+			margin-left   : 0.1em;
+		}
+		.front_matter_column3 {
+			width         : auto;  
+			text-align    : left;	
+			margin-right  : 0.5em;				
+		}
+		
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : right;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #EEEEE0 
+		}
+		tr.onmouseout_even { 
+			background-color : #F3F3E3   
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : lightYellow
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #008000 
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD13\Templates\AD-rgb_logo_223x64.gif
+		"><a href="dxpprocess://Client:SetupPreferences?Server=PCB|PageName=Reports" class="customize"><acronym title="dxpprocess://Client:SetupPreferences?Server=PCB|PageName=Reports">customize</acronym></a><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td Style="width:70%">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">03.06.2022</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">21:35:45</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">00:00:03</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3"><a href="file:///C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc" class="file"><acronym title="C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc">C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td Style="Width:30%">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings</td>
+<td class="DRC_summary_header_col2">:</td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations</td>
+<td class="DRC_summary_header_col2">:</td>
+<td class="DRC_summary_header_col3" style="color : red">36</td></tr>
+</table>
+</td>
+</table>
+<hr><a name="IDZK54VNFH1M32F5YI4TE03RJKAC01FV0KKIBCCEKDB52LFS1CIYRJ"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDOCOVICDTZOI3PY4JBCXILPZF3C20JYZSLKIMPGCEQI55A4ECH1YP">Net Antennae (Tolerance=0mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID1UJ1SS4SFVMYCYJK5AUIRBSVPME5T11H1HDVCGCEWQJUKTAM5M1E">Silk to Silk (Clearance=8mil) (All),(All)</a></td>
+<td class="column2">7</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDMRON4NQHZ5IWMLRUDA5YHOF5RJXJ3GR4P4GKCGBCHX1I3EZIC0QC">Silk To Solder Mask (Clearance=4mil) (IsPad),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDBAWPPXCTYCMWOPQNNERYHWWYUHXA1XC3PMDSPLTWEB3A4FWK4LP">Minimum Solder Mask Sliver (Gap=3.5mil) (All),(All)</a></td>
+<td class="column2">27</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDHEE2TMBC5C1OVPSXRWEKVRX5FYQJY0KVRW0UBESB4BOJROMN03O">Hole To Hole Clearance (Gap=8mil) (All),(All)</a></td>
+<td class="column2">1</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID434BIS1UAKT1ISTB3DZKQEUS0FQPZMUECIVOW0JUHZXIWZRF2Y4B">Hole Size Constraint (Min=1mil) (Max=1000mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDHK2JACR4YL5AMDLSKT03O023U3254VWKHO1JHF4DOOZZQOTNQNE">Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID3ABIAZUR5ZTBMHZBWJAPTDRIFOZRIADQQS43OOMPPVGX133XOO4D">Width Constraint (Min=8mil) (Max=8mil) (Preferred=8mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDO5QPYHYXEHZDMV1E0WU3XT0FXDEFOV02RLKYQGLGJAVKEOWMFD3N">Power Plane Connect Rule(Relief Connect )(Expansion=20mil) (Conductor Width=10mil) (Air Gap=10mil) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDFXJETLW5Q0OR22UZD31KPVMWFK2A0TWUMWQOFCY0ABZZGVYO1PI">Clearance Constraint (Gap=4mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID5JYE232FEYR1NBPH5JNM3LB1WLFGII5WOQUT5AJO0HGT0N5FR4FD">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">1</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID0LNDF5UGZY5NE44TPVNPZH5DEGW4ZPNWY4BKQOFIOJX1W3EIR25B">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">36</td>
+</tr>
+</table><br><hr><a name="ID1UJ1SS4SFVMYCYJK5AUIRBSVPME5T11H1HDVCGCEWQJUKTAM5M1E"><table>
+<tr>
+<th style="text-align : left" colspan="2" class="rule">Silk to Silk (Clearance=8mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3420.019mil|Location2.X=3500mil|Location1.Y=2310mil|Location2.Y=2479.952mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3420.019mil|Location2.X=3500mil|Location1.Y=2310mil|Location2.Y=2479.952mil|Absolute=True">Text "C14" (3490mil,2320mil)  Top Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3409.645mil|Location2.X=3417.519mil|Location1.Y=2281.825mil|Location2.Y=2358.595mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3409.645mil|Location2.X=3417.519mil|Location1.Y=2281.825mil|Location2.Y=2358.595mil|Absolute=True">Track (3413.582mil,2285.762mil)(3413.582mil,2354.658mil)  Top Overlay</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4010mil|Location2.X=4179.952mil|Location1.Y=3350mil|Location2.Y=3429.981mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4010mil|Location2.X=4179.952mil|Location1.Y=3350mil|Location2.Y=3429.981mil|Absolute=True">Text "C10" (4020mil,3360mil)  Top Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4021.825mil|Location2.X=4098.595mil|Location1.Y=3432.481mil|Location2.Y=3440.355mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4021.825mil|Location2.X=4098.595mil|Location1.Y=3432.481mil|Location2.Y=3440.355mil|Absolute=True">Track (4025.762mil,3436.418mil)(4094.658mil,3436.418mil)  Top Overlay</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2515.059mil|Location2.X=2585.905mil|Location1.Y=2584.095mil|Location2.Y=2635.263mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2515.059mil|Location2.X=2585.905mil|Location1.Y=2584.095mil|Location2.Y=2635.263mil|Absolute=True">Text "5" (2580mil,2590mil)  Top Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2504.251mil|Location2.X=2512.125mil|Location1.Y=1609.763mil|Location2.Y=2830.237mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2504.251mil|Location2.X=2512.125mil|Location1.Y=1609.763mil|Location2.Y=2830.237mil|Absolute=True">Track (2508.188mil,1613.7mil)(2508.188mil,2826.3mil)  Top Overlay</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2515.059mil|Location2.X=2585.905mil|Location1.Y=1912.095mil|Location2.Y=1943.584mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2515.059mil|Location2.X=2585.905mil|Location1.Y=1912.095mil|Location2.Y=1943.584mil|Absolute=True">Text "1" (2580mil,1918mil)  Top Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2504.251mil|Location2.X=2512.125mil|Location1.Y=1609.763mil|Location2.Y=2830.237mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2504.251mil|Location2.X=2512.125mil|Location1.Y=1609.763mil|Location2.Y=2830.237mil|Absolute=True">Track (2508.188mil,1613.7mil)(2508.188mil,2826.3mil)  Top Overlay</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3140mil|Location2.X=3299.955mil|Location1.Y=1920mil|Location2.Y=1999.981mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3140mil|Location2.X=3299.955mil|Location1.Y=1920mil|Location2.Y=1999.981mil|Absolute=True">Text "C21" (3150mil,1930mil)  Top Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3171.825mil|Location2.X=3248.595mil|Location1.Y=2002.481mil|Location2.Y=2010.355mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3171.825mil|Location2.X=3248.595mil|Location1.Y=2002.481mil|Location2.Y=2010.355mil|Absolute=True">Track (3175.762mil,2006.418mil)(3244.658mil,2006.418mil)  Top Overlay</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3160.019mil|Location2.X=3240mil|Location1.Y=3620mil|Location2.Y=3739.968mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3160.019mil|Location2.X=3240mil|Location1.Y=3620mil|Location2.Y=3739.968mil|Absolute=True">Text "C6" (3230mil,3630mil)  Top Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3149.645mil|Location2.X=3157.519mil|Location1.Y=3641.825mil|Location2.Y=3718.595mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3149.645mil|Location2.X=3157.519mil|Location1.Y=3641.825mil|Location2.Y=3718.595mil|Absolute=True">Track (3153.582mil,3645.762mil)(3153.582mil,3714.658mil)  Top Overlay</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2511.003mil|Location2.X=2581.85mil|Location1.Y=4182.52mil|Location2.Y=4233.688mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2511.003mil|Location2.X=2581.85mil|Location1.Y=4182.52mil|Location2.Y=4233.688mil|Absolute=True">Text "5" (2575.945mil,4188.425mil)  Top Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2572.481mil|Location2.X=2580.355mil|Location1.Y=4211.405mil|Location2.Y=4288.175mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2572.481mil|Location2.X=2580.355mil|Location1.Y=4211.405mil|Location2.Y=4288.175mil|Absolute=True">Track (2576.418mil,4215.342mil)(2576.418mil,4284.238mil)  Top Overlay</acronym></a></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br><a name="IDBAWPPXCTYCMWOPQNNERYHWWYUHXA1XC3PMDSPLTWEB3A4FWK4LP"><table>
+<tr>
+<th style="text-align : left" colspan="2" class="rule">Minimum Solder Mask Sliver (Gap=3.5mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4173.622mil|Location2.X=4233.622mil|Location1.Y=3583mil|Location2.Y=3643mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4173.622mil|Location2.X=4233.622mil|Location1.Y=3583mil|Location2.Y=3643mil|Absolute=True">Via (4203.622mil,3613mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4188.858mil|Location2.X=4218.386mil|Location1.Y=3552.284mil|Location2.Y=3587.716mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4188.858mil|Location2.X=4218.386mil|Location1.Y=3552.284mil|Location2.Y=3587.716mil|Absolute=True">Pad C8-1(4203.622mil,3570mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3539.528mil|Location2.X=3599.528mil|Location1.Y=3260mil|Location2.Y=3320mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3539.528mil|Location2.X=3599.528mil|Location1.Y=3260mil|Location2.Y=3320mil|Absolute=True">Via (3569.528mil,3290mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3539.936mil|Location2.X=3559.747mil|Location1.Y=3309.071mil|Location2.Y=3387.937mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3539.936mil|Location2.X=3559.747mil|Location1.Y=3309.071mil|Location2.Y=3387.937mil|Absolute=True">Pad U7-56(3549.842mil,3348.504mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3539.528mil|Location2.X=3599.528mil|Location1.Y=3260mil|Location2.Y=3320mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3539.528mil|Location2.X=3599.528mil|Location1.Y=3260mil|Location2.Y=3320mil|Absolute=True">Via (3569.528mil,3290mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3579.307mil|Location2.X=3599.117mil|Location1.Y=3309.071mil|Location2.Y=3387.937mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3579.307mil|Location2.X=3599.117mil|Location1.Y=3309.071mil|Location2.Y=3387.937mil|Absolute=True">Pad U7-54(3589.212mil,3348.504mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3787.638mil|Location2.X=3847.638mil|Location1.Y=3247.638mil|Location2.Y=3307.638mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3787.638mil|Location2.X=3847.638mil|Location1.Y=3247.638mil|Location2.Y=3307.638mil|Absolute=True">Via (3817.638mil,3277.638mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3719.071mil|Location2.X=3797.937mil|Location1.Y=3248.046mil|Location2.Y=3267.858mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3719.071mil|Location2.X=3797.937mil|Location1.Y=3248.046mil|Location2.Y=3267.858mil|Absolute=True">Pad U7-47(3758.504mil,3257.952mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3627.952mil|Location2.X=3707.952mil|Location1.Y=2930.93mil|Location2.Y=3010.93mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3627.952mil|Location2.X=3707.952mil|Location1.Y=2930.93mil|Location2.Y=3010.93mil|Absolute=True">Via (3667.952mil,2970.93mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3677.733mil|Location2.X=3697.544mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3677.733mil|Location2.X=3697.544mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True">Pad U7-32(3687.638mil,2911.496mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3618mil|Location2.X=3678mil|Location1.Y=2822mil|Location2.Y=2882mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3618mil|Location2.X=3678mil|Location1.Y=2822mil|Location2.Y=2882mil|Absolute=True">Via (3648mil,2852mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3658.046mil|Location2.X=3677.858mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3658.046mil|Location2.X=3677.858mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True">Pad U7-31(3667.952mil,2911.496mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3627.952mil|Location2.X=3707.952mil|Location1.Y=2930.93mil|Location2.Y=3010.93mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3627.952mil|Location2.X=3707.952mil|Location1.Y=2930.93mil|Location2.Y=3010.93mil|Absolute=True">Via (3667.952mil,2970.93mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3638.363mil|Location2.X=3658.173mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3638.363mil|Location2.X=3658.173mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True">Pad U7-30(3648.268mil,2911.496mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3618mil|Location2.X=3678mil|Location1.Y=2822mil|Location2.Y=2882mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3618mil|Location2.X=3678mil|Location1.Y=2822mil|Location2.Y=2882mil|Absolute=True">Via (3648mil,2852mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3618.677mil|Location2.X=3638.488mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3618.677mil|Location2.X=3638.488mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True">Pad U7-29(3628.582mil,2911.496mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3509.842mil|Location2.X=3589.842mil|Location1.Y=2930.93mil|Location2.Y=3010.93mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3509.842mil|Location2.X=3589.842mil|Location1.Y=2930.93mil|Location2.Y=3010.93mil|Absolute=True">Via (3549.842mil,2970.93mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3559.622mil|Location2.X=3579.434mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3559.622mil|Location2.X=3579.434mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True">Pad U7-26(3569.528mil,2911.496mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3509.842mil|Location2.X=3589.842mil|Location1.Y=2930.93mil|Location2.Y=3010.93mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3509.842mil|Location2.X=3589.842mil|Location1.Y=2930.93mil|Location2.Y=3010.93mil|Absolute=True">Via (3549.842mil,2970.93mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3520.253mil|Location2.X=3540.064mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3520.253mil|Location2.X=3540.064mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True">Pad U7-24(3530.158mil,2911.496mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3411.418mil|Location2.X=3491.418mil|Location1.Y=2812.062mil|Location2.Y=2892.062mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3411.418mil|Location2.X=3491.418mil|Location1.Y=2812.062mil|Location2.Y=2892.062mil|Absolute=True">Via (3451.418mil,2852.062mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3461.197mil|Location2.X=3481.008mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3461.197mil|Location2.X=3481.008mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True">Pad U7-21(3471.102mil,2911.496mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3411.418mil|Location2.X=3491.418mil|Location1.Y=2812.062mil|Location2.Y=2892.062mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3411.418mil|Location2.X=3491.418mil|Location1.Y=2812.062mil|Location2.Y=2892.062mil|Absolute=True">Via (3451.418mil,2852.062mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3421.827mil|Location2.X=3441.637mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3421.827mil|Location2.X=3441.637mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True">Pad U7-19(3431.732mil,2911.496mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3342mil|Location2.X=3402mil|Location1.Y=2821mil|Location2.Y=2881mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3342mil|Location2.X=3402mil|Location1.Y=2821mil|Location2.Y=2881mil|Absolute=True">Via (3372mil,2851mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3382.456mil|Location2.X=3402.267mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3382.456mil|Location2.X=3402.267mil|Location1.Y=2872.063mil|Location2.Y=2950.929mil|Absolute=True">Pad U7-17(3392.362mil,2911.496mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3340.93mil|Location2.X=3420.93mil|Location1.Y=2962.048mil|Location2.Y=3042.048mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3340.93mil|Location2.X=3420.93mil|Location1.Y=2962.048mil|Location2.Y=3042.048mil|Absolute=True">Via (3380.93mil,3002.048mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3282.063mil|Location2.X=3360.929mil|Location1.Y=2972.456mil|Location2.Y=2992.267mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3282.063mil|Location2.X=3360.929mil|Location1.Y=2972.456mil|Location2.Y=2992.267mil|Absolute=True">Pad U7-16(3321.496mil,2982.362mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3340.93mil|Location2.X=3420.93mil|Location1.Y=2962.048mil|Location2.Y=3042.048mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3340.93mil|Location2.X=3420.93mil|Location1.Y=2962.048mil|Location2.Y=3042.048mil|Absolute=True">Via (3380.93mil,3002.048mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3282.063mil|Location2.X=3360.929mil|Location1.Y=3011.827mil|Location2.Y=3031.637mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3282.063mil|Location2.X=3360.929mil|Location1.Y=3011.827mil|Location2.Y=3031.637mil|Absolute=True">Pad U7-14(3321.496mil,3021.732mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3222.062mil|Location2.X=3302.062mil|Location1.Y=3060.472mil|Location2.Y=3140.472mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3222.062mil|Location2.X=3302.062mil|Location1.Y=3060.472mil|Location2.Y=3140.472mil|Absolute=True">Via (3262.062mil,3100.472mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3282.063mil|Location2.X=3360.929mil|Location1.Y=3070.883mil|Location2.Y=3090.693mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3282.063mil|Location2.X=3360.929mil|Location1.Y=3070.883mil|Location2.Y=3090.693mil|Absolute=True">Pad U7-11(3321.496mil,3080.788mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3222.062mil|Location2.X=3302.062mil|Location1.Y=3060.472mil|Location2.Y=3140.472mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3222.062mil|Location2.X=3302.062mil|Location1.Y=3060.472mil|Location2.Y=3140.472mil|Absolute=True">Via (3262.062mil,3100.472mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3282.063mil|Location2.X=3360.929mil|Location1.Y=3110.253mil|Location2.Y=3130.064mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3282.063mil|Location2.X=3360.929mil|Location1.Y=3110.253mil|Location2.Y=3130.064mil|Absolute=True">Pad U7-9(3321.496mil,3120.158mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3832.028mil|Location2.X=3892.028mil|Location1.Y=2646mil|Location2.Y=2706mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3832.028mil|Location2.X=3892.028mil|Location1.Y=2646mil|Location2.Y=2706mil|Absolute=True">Via (3862.028mil,2676mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3882.284mil|Location2.X=3917.716mil|Location1.Y=2628.858mil|Location2.Y=2658.386mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3882.284mil|Location2.X=3917.716mil|Location1.Y=2628.858mil|Location2.Y=2658.386mil|Absolute=True">Pad C16-2(3900mil,2643.622mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3683mil|Location2.X=3743mil|Location1.Y=2490mil|Location2.Y=2550mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3683mil|Location2.X=3743mil|Location1.Y=2490mil|Location2.Y=2550mil|Absolute=True">Via (3713mil,2520mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3721.906mil|Location2.X=3743.686mil|Location1.Y=2424.74mil|Location2.Y=2499.669mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3721.906mil|Location2.X=3743.686mil|Location1.Y=2424.74mil|Location2.Y=2499.669mil|Absolute=True">Pad U2-21(3732.796mil,2462.204mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3738mil|Location2.X=3798mil|Location1.Y=2686mil|Location2.Y=2746mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3738mil|Location2.X=3798mil|Location1.Y=2686mil|Location2.Y=2746mil|Absolute=True">Via (3768mil,2716mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3712.284mil|Location2.X=3747.716mil|Location1.Y=2668.858mil|Location2.Y=2698.386mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3712.284mil|Location2.X=3747.716mil|Location1.Y=2668.858mil|Location2.Y=2698.386mil|Absolute=True">Pad C13-1(3730mil,2683.622mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2664mil|Location2.X=2724mil|Location1.Y=1969.252mil|Location2.Y=2029.252mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2664mil|Location2.X=2724mil|Location1.Y=1969.252mil|Location2.Y=2029.252mil|Absolute=True">Via (2694mil,1999.252mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2720.331mil|Location2.X=2795.26mil|Location1.Y=1988.362mil|Location2.Y=2010.142mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2720.331mil|Location2.X=2795.26mil|Location1.Y=1988.362mil|Location2.Y=2010.142mil|Absolute=True">Pad U4-13(2757.796mil,1999.252mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4076mil|Location2.X=4136mil|Location1.Y=2942.028mil|Location2.Y=3002.028mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4076mil|Location2.X=4136mil|Location1.Y=2942.028mil|Location2.Y=3002.028mil|Absolute=True">Via (4106mil,2972.028mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4058.858mil|Location2.X=4088.386mil|Location1.Y=2992.284mil|Location2.Y=3027.716mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4058.858mil|Location2.X=4088.386mil|Location1.Y=2992.284mil|Location2.Y=3027.716mil|Absolute=True">Pad C2-2(4073.622mil,3010mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4016mil|Location2.X=4076mil|Location1.Y=3132.028mil|Location2.Y=3192.028mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4016mil|Location2.X=4076mil|Location1.Y=3132.028mil|Location2.Y=3192.028mil|Absolute=True">Via (4046mil,3162.028mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3998.858mil|Location2.X=4028.386mil|Location1.Y=3182.284mil|Location2.Y=3217.716mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3998.858mil|Location2.X=4028.386mil|Location1.Y=3182.284mil|Location2.Y=3217.716mil|Absolute=True">Pad C29-2(4013.622mil,3200mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2777mil|Location2.X=2837mil|Location1.Y=3924mil|Location2.Y=3984mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2777mil|Location2.X=2837mil|Location1.Y=3924mil|Location2.Y=3984mil|Absolute=True">Via (2807mil,3954mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2755mil|Location2.X=2815mil|Location1.Y=3967.204mil|Location2.Y=4027.204mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2755mil|Location2.X=2815mil|Location1.Y=3967.204mil|Location2.Y=4027.204mil|Absolute=True">Via (2785mil,3997.204mil) Top Layer to Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3590.434mil|Location2.X=3670.434mil|Location1.Y=2364.738mil|Location2.Y=2444.738mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3590.434mil|Location2.X=3670.434mil|Location1.Y=2364.738mil|Location2.Y=2444.738mil|Absolute=True">Via (3630.434mil,2404.738mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3651.614mil|Location2.X=3711.614mil|Location1.Y=2375mil|Location2.Y=2435mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3651.614mil|Location2.X=3711.614mil|Location1.Y=2375mil|Location2.Y=2435mil|Absolute=True">Via (3681.614mil,2405mil) Top Layer to Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2851.954mil|Location2.X=2931.954mil|Location1.Y=3015mil|Location2.Y=3095mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2851.954mil|Location2.X=2931.954mil|Location1.Y=3015mil|Location2.Y=3095mil|Absolute=True">Via (2891.954mil,3055mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2902mil|Location2.X=2962mil|Location1.Y=2996mil|Location2.Y=3056mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2902mil|Location2.X=2962mil|Location1.Y=2996mil|Location2.Y=3056mil|Absolute=True">Via (2932mil,3026mil) Top Layer to Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2854.738mil|Location2.X=2934.738mil|Location1.Y=4059.566mil|Location2.Y=4139.566mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2854.738mil|Location2.X=2934.738mil|Location1.Y=4059.566mil|Location2.Y=4139.566mil|Absolute=True">Via (2894.738mil,4099.566mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2865mil|Location2.X=2925mil|Location1.Y=4121mil|Location2.Y=4181mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2865mil|Location2.X=2925mil|Location1.Y=4121mil|Location2.Y=4181mil|Absolute=True">Via (2895mil,4151mil) Top Layer to Bottom Layer</acronym></a></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br><a name="IDHEE2TMBC5C1OVPSXRWEKVRX5FYQJY0KVRW0UBESB4BOJROMN03O"><table>
+<tr>
+<th style="text-align : left" colspan="2" class="rule">Hole To Hole Clearance (Gap=8mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3340.93mil|Location2.X=3420.93mil|Location1.Y=2962.048mil|Location2.Y=3042.048mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3340.93mil|Location2.X=3420.93mil|Location1.Y=2962.048mil|Location2.Y=3042.048mil|Absolute=True">Via (3380.93mil,3002.048mil) Top Layer to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3365.684mil|Location2.X=3425.684mil|Location1.Y=2988mil|Location2.Y=3048mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3365.684mil|Location2.X=3425.684mil|Location1.Y=2988mil|Location2.Y=3048mil|Absolute=True">Via (3395.684mil,3018mil) Top Layer to Bottom Layer</acronym></a></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br><a name="ID5JYE232FEYR1NBPH5JNM3LB1WLFGII5WOQUT5AJO0HGT0N5FR4FD"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Un-Routed Net Constraint ( (All) )</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3365.691mil|Location2.X=3410.923mil|Location1.Y=2988.008mil|Location2.Y=3032.041mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\git\integrated-systems-project\Konwerter_USB_RS232_4porty.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3365.691mil|Location2.X=3410.923mil|Location1.Y=2988.008mil|Location2.Y=3032.041mil|Absolute=True">Isolated copper: Split Plane  (GND)  on InternalPlane1. Copper island connected to pads/vias detected. Copper area is : 9,4E2 sq. mils</acronym></a><br></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br></body>
+</html>
